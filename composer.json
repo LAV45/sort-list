@@ -1,0 +1,16 @@
+{
+    "name": "lav45/sort-list",
+    "description": "Sort items list and recursive add prefix to child items",
+    "license": "BSD-2-Clause",
+    "authors": [
+        {
+            "name": "LAV45",
+            "email": "lav451@gmail.com"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "lav45\\": ""
+        }
+    }
+}
