@@ -35,7 +35,68 @@ $data = Category::find()
     ->asArray()
     ->all();
 
+print_r($data);
+/**
+ * Array
+ * (
+ *    [0] => Array
+ *        (
+ *            [id] => 1
+ *            [parent_id] => 
+ *            [title] => Auto
+ *        )
+ *
+ *    [1] => Array
+ *        (
+ *            [id] => 2
+ *            [parent_id] => 1
+ *            [title] => Car
+ *        )
+ *
+ *    [2] => Array
+ *        (
+ *            [id] => 3
+ *            [parent_id] => 1 
+ *            [title] => Motorcycle
+ *        )
+ * )
+ */
+
 $sortList = (new SortList($data))->getList();
 
+print_r($sortList);
+/**
+ * Array
+ * (
+ *    [0] => Array
+ *        (
+ *            [id] => 1
+ *            [title] => Auto
+ *        )
+ *
+ *    [1] => Array
+ *        (
+ *            [id] => 2
+ *            [title] => - Car
+ *        )
+ *
+ *    [2] => Array
+ *        (
+ *            [id] => 3
+ *            [title] => - Motorcycle
+ *        )
+ * )
+ */
+
 $dropDownList = ArrayHelper::map($sortList, 'id', 'title');
+
+print_r($sortList);
+/**
+ * Array
+ * (
+ *     [1] => Auto
+ *     [2] => - Car
+ *     [3] => - Motorcycle
+ * )
+ */
 ```
