@@ -22,10 +22,25 @@ namespace lav45;
  */
 class SortList
 {
-    /** @var string */
+    /**
+     * @var string
+     */
     public $prefix = '- ';
-
-    /** @var array */
+    /**
+     * @var string
+     */
+    public $attrID = 'id';
+    /**
+     * @var string
+     */
+    public $attrParentID = 'parent_id';
+    /**
+     * @var string
+     */
+    public $attrTitle = 'title';
+    /**
+     * @var array
+     */
     protected $data;
 
     public function __construct(array $data)
@@ -33,13 +48,18 @@ class SortList
         $this->data = $data;
     }
 
+    /**
+     * @param integer $category_id
+     * @param string $prefix
+     * @return string
+     */
     protected function getPath($category_id, $prefix = '')
     {
         foreach ($this->data as $item) {
-            if ($category_id == $item['id']) {
-                $prefix = $prefix ? $this->prefix . $prefix : $item['title'];
-                if ($item['parent_id']) {
-                    return $this->getPath($item['parent_id'], $prefix);
+            if ($category_id == $item[$this->attrID]) {
+                $prefix = $prefix ? $this->prefix . $prefix : $item[$this->attrTitle];
+                if ($item[$this->attrParentID]) {
+                    return $this->getPath($item[$this->attrParentID], $prefix);
                 } else {
                     return $prefix;
                 }
@@ -48,17 +68,21 @@ class SortList
         return '';
     }
 
+    /**
+     * @param null|integer $parent_id
+     * @return array
+     */
     public function getList($parent_id = null)
     {
         $data = [];
 
         foreach ($this->data as $item) {
-            if ($parent_id === $item['parent_id']) {
+            if ($parent_id === $item[$this->attrParentID]) {
                 $data[] = [
-                    'id' => $item['id'],
-                    'title' => $this->getPath($item['id'])
+                    $this->attrID => $item[$this->attrID],
+                    $this->attrTitle => $this->getPath($item[$this->attrID])
                 ];
-                $data = array_merge($data, $this->getList($item['id']));
+                $data = array_merge($data, $this->getList($item[$this->attrID]));
             }
         }
 
